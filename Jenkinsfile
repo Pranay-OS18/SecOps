@@ -4,6 +4,9 @@ pipeline {
         jdk 'JDK17'
         maven 'Maven'
         snyk 'Snyk'
+    }    
+    environment {
+        SNYK_TOKEN = credentials('Snyk-Token')    
     }
     stages {
         stage('Checkout') {
@@ -15,7 +18,7 @@ pipeline {
         stage('SAST Scan') {
             steps {
                dir('SecOps') {
-                  withCredentials([string(snykTokenId: 'Snyk-Token')]) {
+                  withCredentials([string(credentialsId: 'Snyk-Token', variable: 'SNYK_TOKEN')]) {
                        sh 'snyk code test --all-projects --json > snyk_sast_report.json'
                    }
                 }
@@ -33,19 +36,18 @@ pipeline {
                 sh 'mvn test'
             }
         }
-         
-        stage('SCA Scan') {
-            steps {
-                dir('SecOps') {
-                    withCredentials([string(snykTokenID: 'Snyk-Token')]) {
-                         sh 'snyk test --all-projects --json > snyk_sca_report.json'
-                    } 
-                }
-            }
-        }
         stage('Build') {
             steps {
                 sh 'mvn package'
+            }
+        }
+        stage('SCA Scan') {
+            steps {
+                dir('SecOps') {
+                    withCredentials([string(credentialsId: 'Snyk-Token', variable: 'SNYK_TOKEN')]) {
+                         sh 'snyk test --all-projects --json > snyk_sca_report.json'
+                    } 
+                }
             }
         }
     }
