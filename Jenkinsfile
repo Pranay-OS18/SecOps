@@ -3,7 +3,7 @@ pipeline {
     tools {
         jdk 'JDK17'
         maven 'Maven'
-        snykInstallation 'Snyk'
+        snyk 'Snyk'
     }
     stages {
         stage('Checkout') {
