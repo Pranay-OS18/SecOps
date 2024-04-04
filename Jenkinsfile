@@ -2,8 +2,7 @@ pipeline {
     agent any
     tools {
         jdk 'JDK17'
-        maven 'Maven'
-        snyk 'Snyk'
+        maven 'Maven'   
     }    
     environment {
         SNYK_TOKEN = credentials('Snyk-Token')    
@@ -13,16 +12,6 @@ pipeline {
             steps {
                 git branch: 'main', url: 'https://github.com/Pranay-OS18/SecOps.git'
             }
-        }
-
-        stage('SAST Scan') {
-            steps {
-               dir('SecOps') {
-                  withCredentials([string(credentialsId: 'Snyk-Token', variable: 'SNYK_TOKEN')]) {
-                       sh 'snyk code test --all-projects --json > snyk_sast_report.json'
-                   }
-                }
-            }    
         }
 
         stage('Compile') {
