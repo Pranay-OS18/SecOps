@@ -88,10 +88,15 @@ pipeline {
 	stage('Build Docker Image') {
             steps {
                 script {
-                    dockerImage = docker.build(appRegistry + ":BUILD_NUMBER", ".")
+                    dockerImage = docker.build("${appRegistry}:${BUILD_NUMBER}", ".")
                 }
             }
         }
+	stage('Image Scan') {
+            steps {
+                sh 'trivy image --format table -o scan-image-report.html ${appRegistry}:${BUILD_NUMBER}'
+            }
+        }    
         stage('Upload To ECR') {
             steps {
                 script {
