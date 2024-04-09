@@ -27,17 +27,6 @@ pipeline {
                 sh 'snyk auth $SNYK_TOKEN'
             }
         }
-
-        stage('Install Docker') {
-            steps {
-                script {
-                    docker.withTool('Docker') {
-                        sh 'docker --version'
-                    }
-                }
-            }
-        }    
-
         stage('SAST Scan') {
             steps {
                 snykSecurity(
