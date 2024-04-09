@@ -14,6 +14,9 @@ pipeline {
 	NEXUS_GRP_REPO = 'secops-group'
         NEXUS_LOGIN = 'Nexus-Cred'
         DOCKER_VERSION = 'latest'
+	registryCredential = 'ecr:ap-south-1:AWS-Cred'
+        appRegistry = '907080254190.dkr.ecr.ap-south-1.amazonaws.com/app-jvm'
+        ecrRegistry = "https://907080254190.dkr.ecr.ap-south-1.amazonaws.com"
   
     }
     stages {
@@ -82,20 +85,19 @@ pipeline {
                 )
             }
         }
-        stage('Build & Tag') {
+	stage('Build Docker Image') {
             steps {
                 script {
-                    withDockerRegistry(credentialsId: 'Docker-Cred', toolName: 'Docker', url: 'https://hub.docker.com/') {
-                            sh "docker build . -t pranay18cr/secops-app"
-                    }
+                    dockerImage = docker.build(appRegistry + ":BUILD_NUMBER", ".")
                 }
             }
         }
-        stage('Push to Docker Hub') {
+        stage('Upload To ECR') {
             steps {
                 script {
-                    withDockerRegistry(credentialsId: 'Docker-Cred', toolName: 'Docker', url: 'https://hub.docker.com/') {
-                            sh "docker push pranay18cr/secops-app"
+                    docker.withRegistry( ecrRegistry, registryCredential ) {
+                        dockerImage.push("$BUILD_NUMBER")
+                        dockerImage.push('latest')
                     }
                 }
             }
