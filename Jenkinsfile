@@ -8,10 +8,8 @@ pipeline {
         SNYK_TOKEN = credentials('Snyk-Token')
         SNAP_REPO = 'secops-snapshot'
 	RELEASE_REPO = 'secops-release'
-	CENTRAL_REPO = 'secops-maven-central'
 	NEXUSIP = '43.204.147.217'
 	NEXUSPORT = '8081'
-	NEXUS_GRP_REPO = 'secops-group'
         NEXUS_LOGIN = 'Nexus-Cred'
         DOCKER_VERSION = 'latest'
 	registryCredential = 'ecr:ap-south-1:AWS-Cred'
