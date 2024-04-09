@@ -1,4 +1,4 @@
-This Continuous Integration (CI) pipeline is designed to enhance security throughout the Software Development Lifecycle (SDLC). It employs various security scanning techniques using tools such as Snyk and Trivy, ensuring the identification and mitigation of potential vulnerabilities at different stages of development. Upon successful completion of the security scans, a secure Docker image is built and pushed to Docker Hub, ready for deployment.
+This Continuous Integration (CI) pipeline is designed to enhance security throughout the Software Development Lifecycle (SDLC). It employs various security scanning techniques using tools such as Snyk and Trivy, ensuring the identification and mitigation of potential vulnerabilities at different stages of development. Upon successful completion of the security scans, a secure Docker image is built and pushed to Elastic Container Registry(ECR), ready for deployment.
 
 CI Pipeline Overview:
 
