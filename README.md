@@ -3,27 +3,27 @@ This Continuous Integration (CI) pipeline is designed to enhance security throug
 CI Pipeline Overview:
 
 
-SAST (Static Application Security Testing):
+SAST (Static Application Security Testing): Snyk
 
 Static analysis of the source code to identify and mitigate potential security vulnerabilities.
 
 Purpose: To detect vulnerabilities in the codebase before deployment.
-Tool: Snyk
 
 
 
-SCA (Software Composition Analysis):
+
+SCA (Software Composition Analysis):Snyk
 
 Analysis of dependencies and third-party libraries to identify known vulnerabilities and license compliance issues.
 
 Purpose: To ensure the security and legality of third-party components used in the project.
-Tool: Snyk
 
 
 
-Trivy Image Scan:
+
+Trivy Image Scan:Snyk
 
 Scanning of container images for vulnerabilities, misconfigurations, and package vulnerabilities.
 
 Purpose: To ensure the security of containerized applications.
-Tool: Trivy
+
