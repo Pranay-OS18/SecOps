@@ -1,11 +1,29 @@
+This Continuous Integration (CI) pipeline is designed to enhance security throughout the Software Development Lifecycle (SDLC). It employs various security scanning techniques using tools such as Snyk and Trivy, ensuring the identification and mitigation of potential vulnerabilities at different stages of development. Upon successful completion of the security scans, a secure Docker image is built and pushed to Docker Hub, ready for deployment.
 
-This pipeline signifies security in SDLC. It performs different security scan using tools Snyk and Trivy. After a successfull scan, a secure docker image is build and pushed to dockerhub.
+CI Pipeline Overview:
 
 
-CI Pipeline Uses
+SAST (Static Application Security Testing):
 
-SAST-Static Application Security Testing to find out code vulnerbilities
+Static analysis of the source code to identify and mitigate potential security vulnerabilities.
 
-SCA- Software Composition Analysis to check dependencies
+Purpose: To detect vulnerabilities in the codebase before deployment.
+Tool: Snyk
 
-Trivy Image Scan to scan container images
+
+
+SCA (Software Composition Analysis):
+
+Analysis of dependencies and third-party libraries to identify known vulnerabilities and license compliance issues.
+
+Purpose: To ensure the security and legality of third-party components used in the project.
+Tool: Snyk
+
+
+
+Trivy Image Scan:
+
+Scanning of container images for vulnerabilities, misconfigurations, and package vulnerabilities.
+
+Purpose: To ensure the security of containerized applications.
+Tool: Trivy
