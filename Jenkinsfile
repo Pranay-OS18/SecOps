@@ -5,7 +5,6 @@ pipeline {
         maven 'Maven'
     }    
     environment {
-        SNYK_TOKEN = credentials('Snyk-Token')
         SNAP_REPO = 'secops-snapshot'
 	RELEASE_REPO = 'secops-release'
 	NEXUSIP = '43.204.147.217'
@@ -13,8 +12,8 @@ pipeline {
         NEXUS_LOGIN = 'Nexus-Cred'
         DOCKER_VERSION = 'latest'
 	registryCredential = 'ecr:ap-south-1:AWS-Cred'
-        appRegistry = '907080254190.dkr.ecr.ap-south-1.amazonaws.com/app-jvm'
-        ecrRegistry = "https://907080254190.dkr.ecr.ap-south-1.amazonaws.com"
+        appRegistry = 'App-Registry'
+        ecrRegistry = "ECR-Registry"
   
     }
     stages {
