@@ -23,15 +23,11 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/Pranay-OS18/SecOps.git'
             }
         }
-        stage('Snyk Authentication') {
-            steps {
-                sh 'snyk auth $SNYK_TOKEN'
-            }
-        }
         stage('SAST Scan') {
             steps {
                 snykSecurity(
                     snykInstallation: 'Snyk',
+		    snykTokenId: 'Snyk-API-Token',
                     failOnIssues: false,
                     monitorProjectOnBuild: true,
                     additionalArguments: '--code --debug'
@@ -58,6 +54,7 @@ pipeline {
             steps {
                 snykSecurity(
                     snykInstallation: 'Snyk',
+		    snykTokenId: 'Snyk-API-Token',
                     failOnIssues: false,
                     monitorProjectOnBuild: true,
                     additionalArguments: '--sca --debug'
