@@ -1,0 +1,62 @@
+
+- name: Remove Proxy Variables
+  hosts: Slave
+  become: true
+  tasks:
+    - name: Remove Proxy Variables from Env Files
+      lineinfile:
+        path: "{{ item.path }}"
+        state: absent
+        regexp: "{{ item.regexp }}"
+      loop:
+        - { path: /etc/environment, regexp: '^http_proxy=' }
+        - { path: /etc/environment, regexp: '^https_proxy=' }
+        - { path: /etc/bash.bashrc, regexp: '^export http_proxy=' }
+        - { path: /etc/bash.bashrc, regexp: '^export https_proxy=' }
+        - { path: /etc/profile, regexp: '^export http_proxy=' }
+        - { path: /etc/profile, regexp: '^export https_proxy=' }
+
+    - name: Debug the contents of /etc/apt/apt.conf
+      shell: cat /etc/apt/apt.conf
+      register: apt_conf_contents
+
+    - debug:
+        var: apt_conf_contents.stdout
+
+    - name: Remove APT Proxy from /etc/apt/apt.conf using replace
+      replace:
+        path: /etc/apt/apt.conf
+        regexp: '^Acquire::http::Proxy\s+"http://webpoxy.mds.com:8080";$'
+        replace: ''
+      when: ansible_os_family == "Debian"
+
+    - name: Check if the APT proxy was removed
+      shell: cat /etc/apt/apt.conf
+      register: check_apt_conf
+
+    - debug:
+        var: check_apt_conf.stdout
+
+    - name: Unset http_proxy for current session
+      shell: unset http_proxy
+      ignore_errors: yes
+
+    - name: Unset https_proxy for current session
+      shell: unset https_proxy
+      ignore_errors: yes
+
+    - name: Check if http_proxy is set (after removal)
+      shell: echo $http_proxy
+      register: http_proxy_after
+      ignore_errors: yes
+
+    - name: Check if https_proxy is set (after removal)
+      shell: echo $https_proxy
+      register: https_proxy_after
+      ignore_errors: yes
+
+    - debug:
+        msg: "http_proxy after removal: {{ http_proxy_after.stdout }}"
+
+    - debug:
+        msg: "https_proxy after removal: {{ https_proxy_after.stdout }}"
